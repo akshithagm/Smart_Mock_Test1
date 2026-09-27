@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Smart Mock Test – Dynamic Online Examination and Mock Test Platform for Computer Science, Python, AI, and Technology.">
+  <title>Smart Mock Test – Dynamic Quiz Application</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans for UI & JetBrains Mono for Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dark-theme">
+  <!-- Audio for subtle tactile click feedback -->
+  <audio id="audio-click" preload="auto"
+    src="data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU"></audio>
+
+  <!-- Global Application Shell -->
+  <div id="app" class="app-container">
+
+    <!-- Global Header Bar -->
+    <header class="portal-header">
+      <div class="header-left">
+        <div class="portal-brand">
+          <div class="brand-logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M2 17l10 5 10-5"></path>
+              <path d="M2 12l10 5 10-5"></path>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">Smart Mock Test</span>
+            <span class="brand-subtitle">Dynamic Quiz Application • Exercise 7</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center" id="header-timer-container" style="display: none;">
+        <div class="timer-box" id="timer-box">
+          <svg class="timer-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <div class="timer-details">
+            <span class="timer-label">TIME REMAINING</span>
+            <span class="timer-clock" id="timer-display">10:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="system-status-chip">
+          <span class="status-dot"></span>
+          <span class="status-text" id="system-time">12:30:00 PM</span>
+        </div>
+        <div class="candidate-header-pill" id="header-candidate-chip">
+          <div class="avatar-small">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <span class="candidate-name-display" id="nav-candidate-name">Candidate</span>
+        </div>
+        <button id="btn-sound-toggle" class="icon-control-btn" title="Toggle UI Sound" aria-label="Toggle UI Sound">
+          <svg id="icon-sound-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN VIEWS CONTAINER -->
+    <main class="main-viewport">
+
+      <!-- ============================================ -->
+      <!-- VIEW 1: HOME / LANDING PAGE -->
+      <!-- ============================================ -->
+      <section id="view-home" class="view-section active">
+        <div class="home-container">
+
+          <div class="home-hero">
+            <div class="hero-badge">
+              <span class="badge-pulse"></span>
+              COLLEGE PRACTICAL EXAMINATION SYSTEM
+            </div>
+            <h1 class="hero-title">
+              Smart Mock Test <span class="gradient-text">– Dynamic Quiz Platform</span>
+            </h1>
+            <p class="hero-desc">
+              A computer-based assessment system designed to evaluate conceptual depth, code interpretation, algorithmic
+              logic, and artificial intelligence fundamentals.
+            </p>
+          </div>
+
+          <div class="home-grid">
+            <!-- Left Card: Candidate Verification & Session Setup -->
+            <div class="portal-card setup-card">
+              <div class="card-header">
+                <div class="card-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="card-title">Candidate Details</h3>
+                  <p class="card-subtitle">Verify your student roll number before proceeding</p>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <div class="input-group">
+                  <label for="input-candidate-name">Full Name</label>
+                  <input type="text" id="input-candidate-name" class="portal-input" value="Akshitha G M"
+                    placeholder="Enter Full Name" required>
+                </div>
+
+                <div class="input-group">
+                  <label for="input-candidate-roll">Roll / Registration Number</label>
+                  <input type="text" id="input-candidate-roll" class="portal-input" value="CS-2026-EX07"
+                    placeholder="e.g. CS-2026-042" required>
+                </div>
+
+                <div class="input-group">
+                  <label for="input-candidate-subject">Examination Paper</label>
+                  <div class="portal-readonly-field" id="input-candidate-subject">
+                    <span>CS-701: Advanced Computer Science, Python & AI</span>
+                    <span class="chip-badge">Core</span>
+                  </div>
+                </div>
+
+                <div class="proctor-status-banner">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                  </svg>
+                  <span>Proctoring Module Active • Session ID: <strong
+                      id="session-id-display">SMT-8842-SEC</strong></span>
+                </div>
+
+                <div class="btn-group-action">
+                  <button id="btn-start-test" class="btn btn-primary btn-lg pulse-glow">
+                    <span>Start Test</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Card: Test Specifications & Overview -->
+            <div class="portal-card info-card">
+              <div class="card-header">
+                <div class="card-icon blue-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="card-title">Test Specifications</h3>
+                  <p class="card-subtitle">Official scheme of assessment</p>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <div class="specs-grid">
+                  <div class="spec-item">
+                    <span class="spec-label">Total Questions</span>
+                    <span class="spec-value">10 MCQs</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Total Duration</span>
+                    <span class="spec-value">10 Minutes</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Correct Response</span>
+                    <span class="spec-value text-emerald">+1.00 Mark</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Negative Marking</span>
+                    <span class="spec-value text-muted">0.00 (None)</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Passing Criteria</span>
+                    <span class="spec-value text-accent">60% (6.00 Marks)</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Question Palette</span>
+                    <span class="spec-value text-emerald">Enabled</span>
+                  </div>
+                </div>
+
+                <div class="syllabus-pills">
+                  <span class="syllabus-title">Syllabus Domains:</span>
+                  <div class="pills-row">
+                    <span class="tech-pill">Python Core</span>
+                    <span class="tech-pill">Data Structures</span>
+                    <span class="tech-pill">Artificial Intelligence</span>
+                    <span class="tech-pill">Machine Learning</span>
+                    <span class="tech-pill">OS & Networks</span>
+                    <span class="tech-pill">Security</span>
+                  </div>
+                </div>
+
+                <div class="instruction-quick-callout">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <span>You will review standard instructions before starting the countdown timer.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 2: TEST INSTRUCTIONS PAGE -->
+      <!-- ============================================ -->
+      <section id="view-instructions" class="view-section">
+        <div class="instructions-container">
+
+          <div class="section-topbar">
+            <div>
+              <span class="subheading-accent">STEP 02 OF 03</span>
+              <h2 class="view-heading">General Examination Instructions</h2>
+            </div>
+            <div class="portal-badge-sm">Standard Proctored Examination Protocol</div>
+          </div>
+
+          <div class="instructions-content-card">
+
+            <div class="instructions-block">
+              <h4 class="instruction-block-title">
+                <span class="step-num">1</span> General Guidelines
+              </h4>
+              <ul class="styled-instruction-list">
+                <li>The mock test clock will be set at the server. The countdown timer at the top center of the screen
+                  will display the remaining time available for you to complete the examination.</li>
+                <li>When the timer reaches <strong>00:00</strong>, the examination will <strong>automatically conclude
+                    and submit</strong> your recorded answers.</li>
+                <li>Total number of multiple-choice questions: <strong>10</strong>. All questions carry <strong>1
+                    mark</strong> each. There is <strong>no negative marking</strong>.</li>
+                <li>You can move back and forth between questions anytime using <strong>Next</strong>,
+                  <strong>Previous</strong>, or directly clicking on question numbers in the <strong>Question
+                    Palette</strong>.
+                </li>
+              </ul>
+            </div>
+
+            <div class="instructions-block">
+              <h4 class="instruction-block-title">
+                <span class="step-num">2</span> Understanding the Question Palette Status
+              </h4>
+              <p class="instruction-subtext">The Question Palette on the right panel uses standard color codes to
+                indicate status:</p>
+
+              <div class="palette-legend-grid">
+                <div class="legend-card">
+                  <div class="legend-swatch palette-not-visited">1</div>
+                  <div class="legend-desc">
+                    <strong>Not Visited</strong>
+                    <span>You have not yet viewed this question.</span>
+                  </div>
+                </div>
+
+                <div class="legend-card">
+                  <div class="legend-swatch palette-not-answered">2</div>
+                  <div class="legend-desc">
+                    <strong>Not Answered</strong>
+                    <span>You have viewed the question but not selected any option.</span>
+                  </div>
+                </div>
+
+                <div class="legend-card">
+                  <div class="legend-swatch palette-answered">3</div>
+                  <div class="legend-desc">
+                    <strong>Answered</strong>
+                    <span>You have selected an answer for this question.</span>
+                  </div>
+                </div>
+
+                <div class="legend-card">
+                  <div class="legend-swatch palette-marked">4</div>
+                  <div class="legend-desc">
+                    <strong>Marked for Review</strong>
+                    <span>You have not answered the question, but marked it for review later.</span>
+                  </div>
+                </div>
+
+                <div class="legend-card">
+                  <div class="legend-swatch palette-answered-marked">5</div>
+                  <div class="legend-desc">
+                    <strong>Answered & Marked</strong>
+                    <span>You answered the question and marked it for review (will be evaluated).</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="instructions-block">
+              <h4 class="instruction-block-title">
+                <span class="step-num">3</span> Answering and Navigating Questions
+              </h4>
+              <ul class="styled-instruction-list">
+                <li>To select your answer, click on the option card or radio button corresponding to your choice.</li>
+                <li>To deselect your chosen answer, click on the <strong>Clear Response</strong> button.</li>
+                <li>To change your selected answer, simply click on another option before submitting.</li>
+                <li>Click <strong>Save & Next</strong> to save your answer and move to the next sequential question.
+                </li>
+                <li>Click <strong>Mark for Review & Next</strong> if you want to flag the question for re-checking
+                  later.</li>
+              </ul>
+            </div>
+
+            <div class="system-readiness-panel">
+              <div class="readiness-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <span>Automated Diagnostic & Environment Check:</span>
+              </div>
+              <div class="diagnostics-row">
+                <div class="diag-item"><span class="check-icon">✓</span> Browser Compatibility: Pass</div>
+                <div class="diag-item"><span class="check-icon">✓</span> Local Storage Engine: Online</div>
+                <div class="diag-item"><span class="check-icon">✓</span> JavaScript Runtime: Active</div>
+                <div class="diag-item"><span class="check-icon">✓</span> Session Security: Initialized</div>
+              </div>
+            </div>
+
+            <div class="declaration-box">
+              <label class="checkbox-container">
+                <input type="checkbox" id="chk-declaration">
+                <span class="custom-checkbox"></span>
+                <span class="declaration-text">
+                  I have read, understood and agree to follow all the examination instructions listed above. I declare
+                  that all questions will be attempted individually without unauthorized assistance.
+                </span>
+              </label>
+            </div>
+
+            <div class="instructions-actions">
+              <button id="btn-back-to-home" class="btn btn-secondary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>Back</span>
+              </button>
+
+              <button id="btn-proceed-exam" class="btn btn-primary btn-lg" disabled>
+                <span>I Am Ready to Begin</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 3: ACTIVE QUIZ / EXAMINATION CONSOLE -->
+      <!-- ============================================ -->
+      <section id="view-quiz" class="view-section">
+
+        <!-- Exam Info & Progress Strip -->
+        <div class="exam-subbar">
+          <div class="exam-subbar-left">
+            <span class="subject-tag">Paper: Computer Science & AI</span>
+            <span class="active-section-label">Section 1: General Core & Applied CS</span>
+          </div>
+
+          <div class="exam-subbar-center">
+            <div class="progress-wrap">
+              <div class="progress-info">
+                <span id="progress-text">Question 1 of 10</span>
+                <span id="progress-percent">10% Completed</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-bar-fill" id="progress-bar-fill" style="width: 10%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exam-subbar-right">
+            <button id="btn-fullscreen-toggle" class="btn-sm-ghost" title="Toggle Fullscreen">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+                </path>
+              </svg>
+              <span>Fullscreen</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Main Examination Grid: Question Panel + Question Palette -->
+        <div class="exam-workbench">
+
+          <!-- LEFT / CENTER: Question Display Area -->
+          <div class="question-panel">
+
+            <div class="question-header">
+              <div class="q-meta-left">
+                <span class="q-number-badge" id="q-number-badge">Question 01</span>
+                <span class="q-category-chip" id="q-category-chip">Python Core</span>
+                <span class="q-difficulty-chip" id="q-difficulty-chip">Medium</span>
+              </div>
+              <div class="q-meta-right">
+                <div class="marks-pill">
+                  <span class="mark-positive">+1.00</span>
+                  <span class="mark-divider">/</span>
+                  <span class="mark-negative">-0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-content-scroll" id="question-content-scroll">
+              <div class="question-text-box">
+                <p id="question-text" class="question-prompt">Loading question...</p>
+              </div>
+
+              <!-- Code Snippet Area (hidden if question has no code) -->
+              <div id="code-snippet-container" class="code-snippet-wrapper" style="display: none;">
+                <div class="code-header">
+                  <span class="code-dot red"></span>
+                  <span class="code-dot yellow"></span>
+                  <span class="code-dot green"></span>
+                  <span class="code-lang-label">Python 3.x</span>
+                </div>
+                <pre class="code-block"><code id="code-snippet-body"></code></pre>
+              </div>
+
+              <!-- Answer Options Container -->
+              <div class="options-container" id="options-container">
+                <!-- Dynamically rendered 4 options -->
+              </div>
+            </div>
+
+            <!-- Question Action Toolbar -->
+            <div class="question-footer">
+              <div class="footer-actions-left">
+                <button id="btn-mark-review" class="btn btn-outline-purple">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <span>Mark for Review & Next</span>
+                </button>
+                <button id="btn-clear-response" class="btn btn-ghost-danger">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                  </svg>
+                  <span>Clear Response</span>
+                </button>
+              </div>
+
+              <div class="footer-actions-right">
+                <button id="btn-prev-question" class="btn btn-secondary">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                  <span>Previous</span>
+                </button>
+                <button id="btn-next-question" class="btn btn-primary">
+                  <span>Save & Next</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+                <button id="btn-open-submit-modal" class="btn btn-accent-submit">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14"></path>
+                    <path d="M12 5l7 7-7 7"></path>
+                  </svg>
+                  <span>Submit Test</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT: Question Palette & Candidate Monitor -->
+          <aside class="palette-sidebar">
+
+            <div class="candidate-monitor-card">
+              <div class="monitor-avatar">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <div class="monitor-info">
+                <div class="monitor-name" id="sidebar-candidate-name">Akshitha G M</div>
+                <div class="monitor-roll" id="sidebar-candidate-roll">CS-2026-EX07</div>
+              </div>
+            </div>
+
+            <!-- Real-time Palette Status Counters -->
+            <div class="palette-stats-summary">
+              <div class="stat-counter-item">
+                <span class="stat-count text-emerald" id="count-answered">0</span>
+                <span class="stat-label">Answered</span>
+              </div>
+              <div class="stat-counter-item">
+                <span class="stat-count text-rose" id="count-not-answered">1</span>
+                <span class="stat-label">Not Answered</span>
+              </div>
+              <div class="stat-counter-item">
+                <span class="stat-count text-purple" id="count-marked">0</span>
+                <span class="stat-label">Review</span>
+              </div>
+              <div class="stat-counter-item">
+                <span class="stat-count text-muted" id="count-not-visited">9</span>
+                <span class="stat-label">Not Visited</span>
+              </div>
+            </div>
+
+            <!-- Question Palette Matrix -->
+            <div class="palette-grid-box">
+              <div class="palette-box-header">
+                <span>QUESTION PALETTE</span>
+                <span class="palette-badge">10 Items</span>
+              </div>
+              <div class="question-numbers-grid" id="question-numbers-grid">
+                <!-- Dynamically populated buttons 1 to 10 with status colors -->
+              </div>
+            </div>
+
+            <!-- Palette Legend Drawer -->
+            <div class="palette-mini-legend">
+              <div class="legend-row">
+                <span class="legend-dot green"></span>
+                <span>Answered</span>
+              </div>
+              <div class="legend-row">
+                <span class="legend-dot red"></span>
+                <span>Not Answered</span>
+              </div>
+              <div class="legend-row">
+                <span class="legend-dot purple"></span>
+                <span>Marked for Review</span>
+              </div>
+              <div class="legend-row">
+                <span class="legend-dot gray"></span>
+                <span>Not Visited</span>
+              </div>
+            </div>
+
+            <!-- Sidebar Direct Submit Action -->
+            <div class="sidebar-submit-action">
+              <button id="btn-sidebar-submit" class="btn btn-block btn-accent-submit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span>Final Submission</span>
+              </button>
+            </div>
+
+          </aside>
+
+        </div>
+
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 4: RESULT & COMPREHENSIVE SCORECARD -->
+      <!-- ============================================ -->
+      <section id="view-result" class="view-section">
+        <div class="result-container">
+
+          <!-- Scorecard Formal Header (Visible on Screen & Print) -->
+          <div class="scorecard-formal-banner">
+            <div class="scorecard-header-left">
+              <div class="cert-stamp">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+              </div>
+              <div>
+                <span class="cert-badge">EXERCISE 7 • OFFICIAL PERFORMANCE SCORECARD</span>
+                <h2 class="scorecard-title">Smart Mock Test Assessment Report</h2>
+                <p class="scorecard-subtitle">Course: Computer Science, Python & Artificial Intelligence (Practical
+                  Session)</p>
+              </div>
+            </div>
+
+            <div class="scorecard-actions-top no-print">
+              <button id="btn-print-scorecard" class="btn btn-secondary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                  <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                <span>Print Scorecard</span>
+              </button>
+              <button id="btn-restart-exam" class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M23 4v6h-6"></path>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                </svg>
+                <span>Restart Test</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Candidate Identity Metadata Bar -->
+          <div class="result-candidate-strip">
+            <div class="meta-strip-item">
+              <span class="strip-label">CANDIDATE NAME</span>
+              <span class="strip-val" id="result-candidate-name">Akshitha G M</span>
+            </div>
+            <div class="meta-strip-item">
+              <span class="strip-label">ROLL NUMBER</span>
+              <span class="strip-val" id="result-candidate-roll">CS-2026-EX07</span>
+            </div>
+            <div class="meta-strip-item">
+              <span class="strip-label">SUBMISSION TIME</span>
+              <span class="strip-val" id="result-timestamp">Today</span>
+            </div>
+            <div class="meta-strip-item">
+              <span class="strip-label">TEST DURATION USED</span>
+              <span class="strip-val" id="result-duration-used">04:15 Mins</span>
+            </div>
+          </div>
+
+          <!-- Main Analytics Dashboard: Score Gauge + Performance Overview -->
+          <div class="result-analytics-grid">
+
+            <!-- Circular Gauge Card -->
+            <div class="portal-card score-gauge-card">
+              <div class="gauge-wrapper">
+                <svg class="progress-ring" width="180" height="180">
+                  <circle class="progress-ring-circle-bg" stroke="rgba(255, 255, 255, 0.08)" stroke-width="12"
+                    fill="transparent" r="76" cx="90" cy="90" />
+                  <circle id="score-ring-circle" class="progress-ring-circle" stroke="#3b82f6" stroke-width="12"
+                    stroke-dasharray="477.5" stroke-dashoffset="477.5" stroke-linecap="round" fill="transparent" r="76"
+                    cx="90" cy="90" />
+                </svg>
+                <div class="gauge-center-content">
+                  <span class="gauge-percentage" id="score-percentage-display">0%</span>
+                  <span class="gauge-sublabel">OVERALL ACCURACY</span>
+                </div>
+              </div>
+
+              <div class="score-summary-pill">
+                <span class="score-obtained" id="score-numeric-display">0</span>
+                <span class="score-total">/ 10 Marks</span>
+              </div>
+
+              <div class="grade-badge-wrap">
+                <span id="grade-badge" class="grade-badge grade-pass">EXCELLENT</span>
+              </div>
+            </div>
+
+            <!-- Key Assessment Metrics Grid -->
+            <div class="portal-card performance-stats-card">
+              <h3 class="card-title">Performance Summary</h3>
+              <p class="card-subtitle" id="performance-feedback-msg">Evaluating candidate metrics...</p>
+
+              <div class="kpi-metrics-grid">
+                <div class="kpi-card bg-emerald">
+                  <div class="kpi-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                  <div class="kpi-data">
+                    <span class="kpi-val" id="kpi-correct">0</span>
+                    <span class="kpi-label">Correct Answers</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-rose">
+                  <div class="kpi-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </div>
+                  <div class="kpi-data">
+                    <span class="kpi-val" id="kpi-wrong">0</span>
+                    <span class="kpi-label">Wrong Answers</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-amber">
+                  <div class="kpi-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                  </div>
+                  <div class="kpi-data">
+                    <span class="kpi-val" id="kpi-unanswered">0</span>
+                    <span class="kpi-label">Unanswered</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-blue">
+                  <div class="kpi-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                  </div>
+                  <div class="kpi-data">
+                    <span class="kpi-val" id="kpi-time-spent">00:00</span>
+                    <span class="kpi-label">Time Elapsed</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recommendation Banner -->
+              <div class="recommendation-callout" id="recommendation-callout">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83">
+                  </path>
+                </svg>
+                <div class="rec-text" id="recommendation-text">
+                  Demonstrated thorough understanding of standard Computer Science abstractions.
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Comprehensive Solution & Review Key -->
+          <div class="detailed-review-section">
+            <div class="review-header-row">
+              <div>
+                <h3 class="review-title">Detailed Question Review & Explanations</h3>
+                <p class="review-subtitle">Review your responses against official solution keys and technical rationales
+                </p>
+              </div>
+
+              <div class="review-filter-tabs no-print">
+                <button class="filter-tab-btn active" data-filter="all">All (10)</button>
+                <button class="filter-tab-btn" data-filter="correct">Correct</button>
+                <button class="filter-tab-btn" data-filter="wrong">Incorrect</button>
+                <button class="filter-tab-btn" data-filter="unanswered">Unanswered</button>
+              </div>
+            </div>
+
+            <!-- Dynamic Question Review Cards Accordion/List -->
+            <div class="review-cards-list" id="review-cards-list">
+              <!-- Dynamically populated from JS with question text, candidate's choice, correct answer and technical explanation -->
+            </div>
+          </div>
+
+          <!-- Bottom Floating Actions on Result Screen -->
+          <div class="result-bottom-actions no-print">
+            <button id="btn-bottom-restart" class="btn btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6"></path>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+              <span>Retake Assessment</span>
+            </button>
+            <button id="btn-bottom-print" class="btn btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>Download Official Report</span>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============================================ -->
+    <!-- SUBMISSION CONFIRMATION MODAL -->
+    <!-- ============================================ -->
+    <div id="modal-submit-confirmation" class="modal-backdrop" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div class="modal-icon-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div>
+            <h3 class="modal-title">Confirm Final Submission</h3>
+            <p class="modal-subtitle">Review your response summary before final submit</p>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-stats-table">
+            <div class="modal-stat-row">
+              <span class="modal-stat-label">Total Questions:</span>
+              <span class="modal-stat-val">10</span>
+            </div>
+            <div class="modal-stat-row">
+              <span class="modal-stat-label text-emerald">● Answered Questions:</span>
+              <span class="modal-stat-val text-emerald" id="modal-count-answered">0</span>
+            </div>
+            <div class="modal-stat-row">
+              <span class="modal-stat-label text-rose">● Not Answered Questions:</span>
+              <span class="modal-stat-val text-rose" id="modal-count-unanswered">0</span>
+            </div>
+            <div class="modal-stat-row">
+              <span class="modal-stat-label text-purple">● Marked for Review:</span>
+              <span class="modal-stat-val text-purple" id="modal-count-marked">0</span>
+            </div>
+            <div class="modal-stat-row">
+              <span class="modal-stat-label">Time Remaining:</span>
+              <span class="modal-stat-val text-accent" id="modal-time-remaining">10:00</span>
+            </div>
+          </div>
+
+          <div class="modal-warning-alert">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>Once submitted, you will NOT be able to change or revise your responses. Are you sure you want to
+              finish?</span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button id="btn-modal-cancel" class="btn btn-secondary">
+            <span>Resume Test</span>
+          </button>
+          <button id="btn-modal-confirm-submit" class="btn btn-accent-submit">
+            <span>Yes, Final Submit</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/questions.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
